@@ -1,0 +1,3 @@
+= Issue Extension
+
+Plugin for temporary remove issues
