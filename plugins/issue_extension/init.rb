@@ -12,7 +12,7 @@ Redmine::Plugin.register :issue_extension do
 end
 
 Rails.configuration.to_prepare do
-  %w(issues_controller issue issues_helper).each do |resource|
+  %w(issues_controller issue issues_helper application_controller).each do |resource|
     plugin_name = 'issue_extension'
     resource_patch = [plugin_name, [resource, 'patch'].join('_')].join('/')
     resource_constant, resource_patch_constant = [resource, resource_patch].map(&:camelize).map(&:constantize)

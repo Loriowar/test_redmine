@@ -10,13 +10,38 @@ module IssueExtension
         includes(:additional_option).where(issue_additional_options: {is_deleted: [false, nil]})
       end
 
-      # NOTE: очень спорное решение, но перегружать index для issue не лучше
-      default_scope do
-        unless User.current.admin?
-          includes(:additional_option).where(issue_additional_options: {is_deleted: [false, nil]})
-          # joins('LEFT OUTER JOIN issue_additional_options AS iao ON issues.id = iao.issue_id').
-          #     where('iao.is_deleted = false OR iao.is_deleted IS NULL')
+      # WARNING: очень спорное решение
+      # default_scope do
+      #   unless User.current.admin?
+      #     # NOTE: вариант с includes более опрятный, но есть проблема с первой инициализацией, не видна
+      #     #       реляция additional_option при первом вызове
+      #     # includes(:additional_option).where(issue_additional_options: {is_deleted: [false, nil]})
+      #     joins('LEFT OUTER JOIN issue_additional_options AS iao ON issues.id = iao.issue_id').
+      #         where('iao.is_deleted = false OR iao.is_deleted IS NULL').readonly(false)
+      #   end
+      # end
+
+      alias_method_chain :css_classes, :highlight_deleted
+
+      class << self
+        # патч скоупа
+        def visible_with_deleted_processing(*args)
+          if User.current.admin?
+            visible_without_deleted_processing
+          else
+            without_deleted.visible_without_deleted_processing
+          end
         end
+
+        alias_method_chain :visible, :deleted_processing
+      end
+    end
+
+    def css_classes_with_highlight_deleted(user = User.current)
+      if deleted?
+        css_classes_without_highlight_deleted(user) << ' issue-deleted'
+      else
+        css_classes_without_highlight_deleted(user)
       end
     end
 
