@@ -1,5 +1,11 @@
 ru:
+  field_is_deleted: Видимость
+
   issue_extension:
+    attr_states:
+      is_deleted:
+        true_value: Скрыт
+        false_value: Видим
     links:
       mark_as_deleted: Скрыть
       unmark_as_deleted: Восстановить

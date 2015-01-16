@@ -10,6 +10,8 @@ module IssueExtension
         includes(:additional_option).where(issue_additional_options: {is_deleted: [false, nil]})
       end
 
+      attr_reader :old_is_deleted
+
       # WARNING: очень спорное решение
       # default_scope do
       #   unless User.current.admin?
@@ -24,7 +26,7 @@ module IssueExtension
       alias_method_chain :css_classes, :highlight_deleted
 
       class << self
-        # патч скоупа
+        # патч скоупа, дабы избежать множественного переопределения методов IssueQuery
         def visible_with_deleted_processing(*args)
           if User.current.admin?
             visible_without_deleted_processing
@@ -55,6 +57,33 @@ module IssueExtension
 
     def unmark_as_deleted!
       process_deleted_state!(false, :unable_to_unmark_as_deleted)
+    end
+
+    # NOTE: в будущем можно расширить на сохранение целой реляции
+    def init_old_is_deleted
+      @old_is_deleted = deleted?
+    end
+
+    def is_deleted_changed?
+      # present? не подходит, ибо Boolean
+      !@old_is_deleted.nil? && @old_is_deleted != deleted?
+    end
+
+    def with_journal_for_deleted(&block)
+      init_old_is_deleted
+      instance_eval(&block)
+      if is_deleted_changed?
+        init_journal(User.current) if @current_journal.blank?
+        @current_journal.details << JournalDetail.new(property: 'attr',
+                                                      prop_key: :is_deleted,
+                                                      old_value: is_deleted_to_s(@old_is_deleted),
+                                                      value: is_deleted_to_s)
+        @current_journal.save
+      end
+    end
+
+    def is_deleted_to_s(val = deleted?)
+      l("#{val.to_s}_value", scope: 'issue_extension.attr_states.is_deleted')
     end
 
   private
