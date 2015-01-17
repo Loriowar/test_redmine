@@ -1,3 +1,7 @@
 # English strings go here for Rails i18n
 en:
-  # my_label: "My label"
+  issue_extension:
+    attr_states:
+      is_deleted:
+        true_value: Hide
+        false_value: Visible

@@ -4,7 +4,8 @@ module IssueExtension
 
     included do
       has_one :additional_option,
-              class_name: 'IssueAdditionalOption'
+              class_name: 'IssueAdditionalOption',
+              dependent: :destroy
 
       scope :without_deleted, -> do
         includes(:additional_option).where(issue_additional_options: {is_deleted: [false, nil]})

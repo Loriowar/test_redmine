@@ -1,0 +1,10 @@
+gem 'haml-rails'
+gem 'possibly'
+
+group :development do
+  gem 'pry'
+end
+
+group :test do
+  gem 'pry'
+end

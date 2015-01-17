@@ -8,8 +8,6 @@ gem "builder", ">= 3.0.4"
 gem "request_store", "1.0.5"
 gem "mime-types"
 gem "rbpdf", "~> 1.18.4"
-gem 'haml-rails'
-gem 'possibly'
 
 gem "i18n", "~> 0.6.11"
 
@@ -86,7 +84,6 @@ end
 group :development do
   gem "rdoc", ">= 2.4.2"
   gem "yard"
-  gem 'pry'
 end
 
 group :test do
