@@ -1,0 +1,13 @@
+---
+issue_additional_option_001:
+  created_at: <%= 3.days.ago.to_s(:db) %>
+  updated_at: <%= 3.days.ago.to_s(:db) %>
+  is_deleted: false
+  issue_id: 1
+  id: 1
+issue_additional_option_002:
+  created_at: <%= 4.days.ago.to_s(:db) %>
+  updated_at: <%= 4.days.ago.to_s(:db) %>
+  is_deleted: true
+  issue_id: 2
+  id: 2

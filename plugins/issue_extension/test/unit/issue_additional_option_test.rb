@@ -1,7 +1,7 @@
 require File.expand_path('../../test_helper', __FILE__)
 
 class IssueAdditionalOptionTest < ActiveSupport::TestCase
-  fixtures :issues, :issue_additional_options
+  fixtures :issues, :users, :issue_statuses, :issue_additional_options
 
   include Redmine::I18n
 
@@ -68,6 +68,10 @@ class IssueAdditionalOptionTest < ActiveSupport::TestCase
     assert_equal new_details.count, 1
     assert_equal new_details.first.old_value, l(:false_value, scope: 'issue_extension.attr_states.is_deleted')
     assert_equal new_details.first.value, l(:true_value, scope: 'issue_extension.attr_states.is_deleted')
+  end
+
+  def test_proper_css_classes_for_deleted
+    assert_include 'issue-deleted', @deleted_issue.css_classes(User.find(2))
   end
 
 end
