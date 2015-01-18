@@ -30,9 +30,9 @@ module IssueExtension
         # патч скоупа, дабы избежать множественного переопределения методов IssueQuery
         def visible_with_deleted_processing(*args)
           if User.current.admin? || Setting.plugin_issue_extension['disable_plugin'].to_bool
-            visible_without_deleted_processing
+            visible_without_deleted_processing(*args)
           else
-            without_deleted.visible_without_deleted_processing
+            without_deleted.visible_without_deleted_processing(*args)
           end
         end
 
