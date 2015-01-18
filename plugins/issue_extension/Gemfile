@@ -1,5 +1,6 @@
 gem 'haml-rails'
 gem 'possibly'
+gem 'to_bool'
 
 group :development do
   gem 'pry'

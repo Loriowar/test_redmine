@@ -13,3 +13,5 @@ ru:
     errors:
       unable_to_mark_as_deleted: Невозможно скрыть задачу
       unable_to_unmark_as_deleted: Невозможно восстановить задачу
+    settings:
+      disable_plugin: Отключить плагин

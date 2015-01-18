@@ -9,6 +9,8 @@ Redmine::Plugin.register :issue_extension do
   version '0.0.1'
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
+
+  settings partial: 'settings/issue_extension', default: { 'disable_plugin' => false }
 end
 
 Rails.configuration.to_prepare do

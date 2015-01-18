@@ -29,7 +29,7 @@ module IssueExtension
       class << self
         # патч скоупа, дабы избежать множественного переопределения методов IssueQuery
         def visible_with_deleted_processing(*args)
-          if User.current.admin?
+          if User.current.admin? || Setting.plugin_issue_extension['disable_plugin'].to_bool
             visible_without_deleted_processing
           else
             without_deleted.visible_without_deleted_processing
@@ -41,7 +41,7 @@ module IssueExtension
     end
 
     def css_classes_with_highlight_deleted(user = User.current)
-      if deleted?
+      if deleted? && !Setting.plugin_issue_extension['disable_plugin'].to_bool
         css_classes_without_highlight_deleted(user) << ' issue-deleted'
       else
         css_classes_without_highlight_deleted(user)

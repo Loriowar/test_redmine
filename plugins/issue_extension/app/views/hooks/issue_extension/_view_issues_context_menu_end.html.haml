@@ -1,19 +1,20 @@
-- if @issues.any?(&:deleted?)
-  %li
-    = context_menu_link l(:unmark_as_deleted, scope: 'issue_extension.links'),
-                        bulk_unmark_as_deleted_issue_additional_actions_path(ids: issues.map(&:id)),
-                        class: 'icon icon-reload'
-- if @issues.any?{|i| !i.deleted?}
-  %li
-    = context_menu_link l(:mark_as_deleted, scope: 'issue_extension.links'),
-                        bulk_mark_as_deleted_issue_additional_actions_path(ids: issues.map(&:id)),
-                        class: 'icon icon-del'
-- if @issues.all?(&:deleted?)
-  %li
-    = context_menu_link l(:permanently_remove, scope: 'issue_extension.links'),
-                        issues_path(ids: issues.map(&:id),
-                                    back_url: back),
-                        method: :delete,
-                        data: {confirm: issues_destroy_confirmation_message(@issues)},
-                        class: 'icon-del',
-                        disabled: !can[:delete]
+- if !Setting.plugin_issue_extension['disable_plugin'].to_bool
+  - if @issues.any?(&:deleted?)
+    %li
+      = context_menu_link l(:unmark_as_deleted, scope: 'issue_extension.links'),
+                          bulk_unmark_as_deleted_issue_additional_actions_path(ids: issues.map(&:id)),
+                          class: 'icon icon-reload'
+  - if @issues.any?{|i| !i.deleted?}
+    %li
+      = context_menu_link l(:mark_as_deleted, scope: 'issue_extension.links'),
+                          bulk_mark_as_deleted_issue_additional_actions_path(ids: issues.map(&:id)),
+                          class: 'icon icon-del'
+  - if @issues.all?(&:deleted?)
+    %li
+      = context_menu_link l(:permanently_remove, scope: 'issue_extension.links'),
+                          issues_path(ids: issues.map(&:id),
+                                      back_url: back),
+                          method: :delete,
+                          data: {confirm: issues_destroy_confirmation_message(@issues)},
+                          class: 'icon-del',
+                          disabled: !can[:delete]

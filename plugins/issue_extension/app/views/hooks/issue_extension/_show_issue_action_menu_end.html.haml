@@ -1,6 +1,7 @@
-- if User.current.allowed_to?(:delete_issues, @project)
-  - if @issue.deleted?
-    = link_to_unmark_as_deleted @issue
-    = link_to_destroy @issue
-  -else
-    = link_to_mark_as_deleted @issue
+- if !Setting.plugin_issue_extension['disable_plugin'].to_bool
+  - if User.current.allowed_to?(:delete_issues, @project)
+    - if @issue.deleted?
+      = link_to_unmark_as_deleted @issue
+      = link_to_destroy @issue
+    -else
+      = link_to_mark_as_deleted @issue

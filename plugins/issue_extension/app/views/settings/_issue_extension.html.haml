@@ -1,0 +1,4 @@
+= check_box_tag 'settings[disable_plugin]', true, @settings['disable_plugin'].to_bool
+
+%label.inline{for: 'disable_plugin'}
+  = l(:disable_plugin, scope: 'issue_extension.settings')

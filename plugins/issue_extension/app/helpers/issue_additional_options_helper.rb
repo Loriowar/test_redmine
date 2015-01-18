@@ -1,3 +1,3 @@
 module IssueAdditionalOptions
-
+  # stub
 end
